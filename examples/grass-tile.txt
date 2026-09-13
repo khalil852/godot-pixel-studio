@@ -1,0 +1,24 @@
+# 16x16 grass tile using a BUILT-IN PALETTE (no legend block).
+# Grid characters are palette indices in order, so 0-9a-f map to the 16 entries
+# of the named palette. Run `python scripts/pixel_draw.py palette pico8` to see them.
+#
+#   python scripts/pixel_draw.py grid --spec examples/grass-tile.txt --out examples/grass-tile.png
+name: grass-tile-01
+palette: pico8
+grid:
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+333b3333333b3333
+33b33333b3333333
+333333b333333333
+3333333333333333
+3333333333333b33
+33b3333333333333
+3333333333333333
+33333b3333333333
+3333333333b33333
+3333333333333333
+3333333333333333
+3333333333333333

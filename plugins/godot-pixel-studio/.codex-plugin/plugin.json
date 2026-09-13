@@ -1,0 +1,39 @@
+{
+  "name": "godot-pixel-studio",
+  "version": "0.1.0",
+  "description": "A pixel-art game studio for Godot 4: role-based skills for design, art direction, sprite drawing, GDScript, scenes, and QA, plus a deterministic pixel drawing tool.",
+  "author": {
+    "name": "khalil852",
+    "url": "https://github.com/khalil852"
+  },
+  "license": "MIT",
+  "keywords": [
+    "godot",
+    "godot4",
+    "pixel-art",
+    "gamedev",
+    "sprites",
+    "tileset",
+    "gdscript",
+    "studio",
+    "2d"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Godot Pixel Studio",
+    "shortDescription": "Pixel-art game studio for Godot 4",
+    "longDescription": "Run a small studio inside Codex for Godot 4 2D pixel-art games. Role skills cover game design, art direction, sprite drawing, GDScript, scene assembly, and QA. All pixel art is produced deterministically by the bundled drawing tool, so sprites stay on-palette, grid-aligned, and diff-able.",
+    "developerName": "khalil852",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Start a Godot 4 pixel-art game and set up the studio workflow",
+      "Draw a 16x16 pixel-art sprite and show me the enlarged preview",
+      "Review my Godot pixel-art project for blurry pixels and jitter"
+    ],
+    "brandColor": "#478CBF"
+  }
+}

@@ -1,0 +1,12 @@
+# Normalise line endings on commit so the repository stays LF regardless of
+# the contributor's platform (Windows checkouts would otherwise introduce CRLF).
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.gif binary
+
+# Windows-only scripts keep CRLF if any are ever added
+*.bat text eol=crlf
+*.cmd text eol=crlf

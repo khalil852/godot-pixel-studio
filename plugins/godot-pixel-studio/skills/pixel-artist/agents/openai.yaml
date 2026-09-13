@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pixel Artist"
+  short_description: "Draw sprites and tiles with the pixel tool"
+  default_prompt: "Draw a 16x16 pixel-art sprite and show me the enlarged preview."

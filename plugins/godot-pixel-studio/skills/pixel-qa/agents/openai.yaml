@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pixel QA"
+  short_description: "Verify the game runs and report concrete defects"
+  default_prompt: "Run a smoke test on my Godot pixel-art game and report concrete defects."

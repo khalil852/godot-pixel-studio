@@ -1,0 +1,4 @@
+interface:
+  display_name: "Godot Scene Builder"
+  short_description: "Wire scenes, tilemaps, and collisions"
+  default_prompt: "Set up the scene tree with a TileMapLayer, collisions, and correct Y-sorting."

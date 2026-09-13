@@ -1,0 +1,4 @@
+interface:
+  display_name: "Godot Pixel Studio"
+  short_description: "Route Godot 2D pixel-art work to the right role"
+  default_prompt: "Start a Godot 4 2D pixel-art game and pick the right studio role before implementation."

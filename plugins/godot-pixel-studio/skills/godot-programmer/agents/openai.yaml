@@ -1,0 +1,4 @@
+interface:
+  display_name: "Godot Programmer"
+  short_description: "Write Godot 4 GDScript gameplay code"
+  default_prompt: "Implement player movement and a state machine in Godot 4 GDScript."

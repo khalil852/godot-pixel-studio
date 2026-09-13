@@ -1,0 +1,20 @@
+{
+  "name": "codexskill",
+  "interface": {
+    "displayName": "Codex Skills"
+  },
+  "plugins": [
+    {
+      "name": "godot-pixel-studio",
+      "source": {
+        "source": "local",
+        "path": "./plugins/godot-pixel-studio"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

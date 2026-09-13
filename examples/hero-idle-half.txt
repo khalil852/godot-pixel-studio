@@ -1,0 +1,37 @@
+# Symmetric front-facing character, authored as the LEFT HALF including the
+# centre column. Render with --mirror-x to get the full sprite:
+#
+#   python scripts/pixel_draw.py grid --spec examples/hero-idle-half.txt \
+#       --out examples/hero-idle.png --mirror-x
+#
+# Mirroring yields width 2w-1 because the centre column is shared: this 8-column
+# spec produces a 15px-wide sprite. Declare that width in your art bible.
+#
+# When drawing a face the eye must sit NEAR THE CENTRE column (index 7 here),
+# not at the outer edge -- mirroring places the other eye symmetrically.
+name: hero-idle-half
+legend:
+  ".": transparent
+  "k": "#1a1c2c"   # outline
+  "s": "#ef7d57"   # skin base
+  "S": "#b13e53"   # skin shadow
+  "m": "#41a6f6"   # cloth base
+  "M": "#3b5dc9"   # cloth shadow
+  "w": "#f4f4f4"   # eye
+grid:
+....kkkk
+..kksssk
+..kssssk
+..kswwsk
+..kssssk
+..ksSSSk
+...kmmmk
+..kmmmmk
+..kmmmmk
+..kmmmmk
+..kmmMMk
+...kmmmk
+...kM.Mk
+...kM.Mk
+...kk.kk
+........

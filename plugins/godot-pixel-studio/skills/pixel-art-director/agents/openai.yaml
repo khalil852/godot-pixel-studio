@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pixel Art Director"
+  short_description: "Set palette, resolution, and asset spec"
+  default_prompt: "Define the art bible and asset manifest for my Godot pixel-art game before any sprite is drawn."

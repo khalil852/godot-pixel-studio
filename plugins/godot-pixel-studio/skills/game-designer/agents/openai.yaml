@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Designer"
+  short_description: "Define the core loop and a hard scope cap"
+  default_prompt: "Write a one-page design brief with a core loop and a scope cap for my pixel game."
