@@ -12,3 +12,6 @@ desktop.ini
 *.swp
 .idea/
 .vscode/
+
+# Godot import cache (the .import sidecars next to assets ARE committed)
+.godot/

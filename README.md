@@ -4,6 +4,12 @@
 game team divides its work, plus a deterministic pixel drawing tool. Built for
 **Godot 4.x 2D pixel-art** projects.
 
+> **Not AI that draws pixel art for you. AI that keeps your pixel art exact.**
+
+![Left: soft edges, off-palette drift, size and baseline jitter. Right: hard edges, one palette, exact declared sizes.](docs/why-deterministic.png)
+
+![Text grid becomes a sprite, which then runs in Godot](docs/grid-to-sprite.gif)
+
 Most attempts at "have an AI make me a pixel game" fail in one of two ways:
 
 1. **The project never ships.** The model starts writing code before art direction
@@ -17,11 +23,6 @@ exist before code, and a drawing tool that produces exact, engine-ready pixels.
 
 > This repository is a Codex plugin marketplace. It currently ships one plugin,
 > `godot-pixel-studio`; the layout supports adding more under `plugins/`.
-
-![16x16 slime sprite](docs/slime-enlarged.png)
-
-*That slime is rendered from a plain-text character grid — every pixel is
-authored and deterministic, not sampled from a generative model.*
 
 ---
 
@@ -167,13 +168,21 @@ any code or art is produced. To draw something immediately:
 .
 ├── .agents/plugins/marketplace.json      # marketplace manifest
 ├── examples/                             # runnable grid specs + rendered output
-├── docs/                                 # images for this README
+│   └── godot-demo/                       # 30-line Godot scene that loads them
+├── docs/                                 # README figures + the scripts that make them
+│   ├── make_figures.py                   # generates why-deterministic.png
+│   └── make_gif.py                       # generates grid-to-sprite.gif
 └── plugins/godot-pixel-studio/
     ├── .codex-plugin/plugin.json
     ├── skills/                           # seven role skills
     ├── scripts/pixel_draw.py             # the drawing tool
     └── references/                       # Godot 4 and pixel-art reference docs
 ```
+
+`examples/godot-demo/` is a real runnable project — open it and you can watch the
+same PNGs the tool produced standing on a seamless tile floor. It is the check on
+the "engine-ready" claim: no editing step sits between `pixel_draw.py` and the
+engine.
 
 ## Design notes
 
@@ -197,6 +206,8 @@ MIT — see [LICENSE](LICENSE).
 
 ## 中文说明
 
+**不做替你画像素画的 AI，做替你精确管理像素资产的 AI。**
+
 这是一个给 **Codex** 用的「Godot 4 像素风游戏工作室」插件：7 个角色 skill
 （导演 / 策划 / 美术总监 / 像素画师 / 程序 / 场景 / QA）加一个**确定性像素绘画工具**。
 
@@ -208,6 +219,7 @@ MIT — see [LICENSE](LICENSE).
 
 示例即仓库里的 `examples/`：`slime-idle.txt` 是显式 `legend` 写法，
 `hero-idle-half.txt` 演示对称角色只画左半再用 `--mirror-x` 镜像，
-`grass-tile.txt` 演示直接用内置调色板索引。
+`grass-tile.txt` 演示直接用内置调色板索引。`examples/godot-demo/` 是一个可直接运行的
+Godot 工程——打开就能看到这些 PNG 站在无缝拼接的地砖上，中间没有任何加工步骤。
 
 依赖：Python 3.9+ 与 Pillow；引擎侧针对 Godot 4.x（开发时用的是 4.7）。
