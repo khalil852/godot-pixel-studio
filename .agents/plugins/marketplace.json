@@ -1,7 +1,7 @@
 {
-  "name": "codexskill",
+  "name": "pixel-studio",
   "interface": {
-    "displayName": "Codex Skills"
+    "displayName": "Pixel Studio"
   },
   "plugins": [
     {

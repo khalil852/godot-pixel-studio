@@ -1,34 +1,57 @@
 # Godot Pixel Studio
 
-A pixel-art game studio for **Codex** — role-based skills plus a deterministic
-pixel drawing tool, aimed at **Godot 4.x 2D pixel-art** projects.
+**A pixel-art game studio for Codex** — seven role skills that mirror how a small
+game team divides its work, plus a deterministic pixel drawing tool. Built for
+**Godot 4.x 2D pixel-art** projects.
 
-> This repository is a Codex plugin marketplace named `codexskill`. It currently
-> ships one plugin, `godot-pixel-studio`; the marketplace layout supports adding
-> more under `plugins/`.
+Most attempts at "have an AI make me a pixel game" fail in one of two ways:
+
+1. **The project never ships.** The model starts writing code before art direction
+   and scope exist, so the game grows sideways across systems and content.
+2. **The assets are unusable.** What comes back *looks* like pixel art but is
+   anti-aliased (soft edges, hundreds of colours), off-palette, and at
+   inconsistent sizes — so it cannot go into an engine without being redrawn.
+
+This plugin addresses both: a workflow that forces design and art direction to
+exist before code, and a drawing tool that produces exact, engine-ready pixels.
+
+> This repository is a Codex plugin marketplace. It currently ships one plugin,
+> `godot-pixel-studio`; the layout supports adding more under `plugins/`.
 
 ![16x16 slime sprite](docs/slime-enlarged.png)
 
-*The slime above is rendered from a plain-text character grid — every pixel is
-authored, not sampled from a generative model.*
+*That slime is rendered from a plain-text character grid — every pixel is
+authored and deterministic, not sampled from a generative model.*
 
 ---
 
-## The problem
+## Why not just generate the images?
 
-Asking an LLM for pixel art usually produces something that *looks* like pixel
-art but is unusable in an engine:
+Because a generated image is not a source file. You cannot diff it, you cannot
+review it as a 3-line change, and you cannot say "move the eye one pixel left" and
+get a precise result. And any anti-aliasing that leaks in has to be cleaned up by
+hand, pixel by pixel.
 
-- it is **anti-aliased** (soft edges, hundreds of colours) instead of crisp pixels,
-- it is **off-palette**, so it clashes with every other asset,
-- sprites come back at **inconsistent sizes**, so frames pop and collisions drift,
-- it cannot be **edited precisely** — you cannot ask for "move the eye one pixel left"
-  and get a deterministic result.
+So this plugin draws pixel art the way it is actually editable — as text:
 
-And game projects fail for a second reason: the model starts writing code before
-art direction and scope exist, so the game grows sideways and never ships.
+```text
+name: slime-idle-01
+legend:
+  ".": transparent
+  "k": "#1a1c2c"   # outline
+  "b": "#41a6f6"   # body base
+  "B": "#3b5dc9"   # body shadow
+  "w": "#f4f4f4"   # eye highlight
+grid:
+.....kkkkkk.....
+....kbbbbbbk....
+...kbwwbbwwbk...
+...kbbBBBBbbk...
+```
 
-This plugin addresses both.
+Run it through `grid` and you get a PNG whose every pixel is exactly what you
+wrote — on palette, on grid, at the declared size. Change one character and
+exactly one pixel changes.
 
 ## What's inside
 
@@ -108,9 +131,12 @@ This repository is a Codex plugin marketplace, so you can install straight from
 it:
 
 ```bash
-codex plugin marketplace add khalil852/codexskill
-codex plugin add godot-pixel-studio@codexskill
+codex plugin marketplace add khalil852/godot-pixel-studio
+codex plugin add godot-pixel-studio@pixel-studio
 ```
+
+(The marketplace is named `pixel-studio`; the plugin inside it is
+`godot-pixel-studio`.)
 
 Then **restart Codex and open a new thread** — skills are loaded per thread, so an
 existing session will not see the new roles.
@@ -151,16 +177,17 @@ any code or art is produced. To draw something immediately:
 
 ## Design notes
 
-- **Why text grids instead of image generation?** Determinism and editability.
-  A grid is a source file: it diffs, it reviews, and one pixel can be changed
-  precisely. Generated images give none of that.
-- **Why 7 separate skills instead of one big prompt?** Each discipline has hard
-  rules that conflict (design wants scope, art wants consistency, QA wants
-  evidence). Keeping them separate keeps those rules enforceable, and mirrors how
-  roles are actually separated on a team.
-- **Why insist on an asset manifest?** Sprite size and anchor are contracts
-  between art and code. Undeclared sizes are the root cause of popping animation
-  and collision drift.
+- **Why seven separate skills instead of one big prompt?** Each discipline has
+  hard rules that pull against the others — design wants scope, art wants
+  consistency, QA wants evidence. Keeping them separate keeps those rules
+  enforceable, and mirrors how roles are actually separated on a team.
+- **Why insist on an artifact manifest?** A sprite's pixel size and anchor are
+  contracts between art and code. Undeclared sizes are the root cause of popping
+  animation and collision drift, so the manifest makes them explicit before
+  anything is drawn.
+- **Why is `info` a first-class command?** Verification should be a command, not
+  an opinion. "Is this sprite 16×24 with 5 colours?" is answerable; "does it look
+  right?" is not.
 
 ## License
 
