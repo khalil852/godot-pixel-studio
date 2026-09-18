@@ -1,0 +1,39 @@
+{
+  "name": "pixel-art-forge",
+  "version": "0.2.0",
+  "description": "Constructive pixel-art tooling for higher-resolution sprites and game UI, with a measurable audit for the defects that make pixel art read as machine-made.",
+  "author": {
+    "name": "khalil852",
+    "url": "https://github.com/khalil852"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pixel-art",
+    "sprites",
+    "tiles",
+    "game-ui",
+    "nine-slice",
+    "sprite-sheet",
+    "animation",
+    "asset-pipeline",
+    "godot"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Pixel Art Forge",
+    "shortDescription": "Higher-res pixel art and game UI, audited",
+    "longDescription": "Build pixel art where every pixel is deliberate: crisp shapes instead of generated images, banded shading from a declared light, one forced feature scale, and an audit that measures the seven defects that make pixel art read as machine-made. Generates sprites, tiles and UI (panels, buttons, bars, nine-slice skins), animates from one base frame, and verifies the result.",
+    "developerName": "khalil852",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Build a 64x64 sprite and run the audit until it passes",
+      "Generate a 320x180 game UI panel and its nine-slice skin",
+      "Tell me why my pixel art looks machine-made"
+    ],
+    "brandColor": "#7C3AED"
+  }
+}

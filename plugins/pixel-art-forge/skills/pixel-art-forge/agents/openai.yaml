@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pixel Art Forge"
+  short_description: "Higher-res pixel art that does not read as machine-made"
+  default_prompt: "Build a 64x64 pixel-art game asset and run the audit until all checks pass."

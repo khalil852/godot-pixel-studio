@@ -1,0 +1,35 @@
+{
+  "name": "game-studio-sim",
+  "version": "0.1.0",
+  "description": "A crew protocol for game projects: four permanent roles, five checkpoints, and exactly one owner per decision.",
+  "author": {
+    "name": "khalil852",
+    "url": "https://github.com/khalil852"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gamedev",
+    "game-design",
+    "agents",
+    "studio",
+    "workflow",
+    "production"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Game Studio Sim",
+    "shortDescription": "Run a small studio crew with explicit ownership",
+    "longDescription": "A collaboration protocol rather than an org chart: a director, designer, artist and engineer, plus a critic invoked at checkpoints. Every artifact has one owner and declared inputs, changes are priced against what they displace, and the critic must return a falsifiable defect or an explicit abstention. Built from documented game-project failure modes, not invented roles.",
+    "developerName": "khalil852",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Start a game project and run the crew protocol",
+      "Write the checkpoint-1 brief for my game idea"
+    ],
+    "brandColor": "#0F766E"
+  }
+}

@@ -1,0 +1,17 @@
+ASSET BRIEF — fill every line; a blank line is a decision you have not made
+
+  subject      : <what it is, one phrase>
+  role in game : <where it appears / what the player does with it>
+  canvas       : <WxH>
+  palette      : <name from `pixel_forge.py palettes`>   light from <tl|tr|...>
+  block        : <N>px   — the smallest feature; everything is a multiple of it
+  must read as : <the ONE thing recognisable at the game's real zoom>
+  states       : <none | normal, hover, pressed, disabled>
+  deliverable  : <files, e.g. sprite.png + sprite.txt + review.png>
+
+  process      : ramps per material from the palette; constructive primitives, not a
+                 character grid; one shade call per material with the same light;
+                 blocksnap to the block size; clean; snap; outline if the style has one
+  gate         : audit must pass, with every material declared via --material
+  report       : the exact commands; the audit numbers; which construction path you
+                 chose and why; what you could NOT verify and who must check it

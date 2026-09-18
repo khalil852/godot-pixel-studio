@@ -1,202 +1,145 @@
-# Godot Pixel Studio
+# Pixel Studio
 
-**A pixel-art game studio for Codex** — seven role skills that mirror how a small
-game team divides its work, plus a deterministic pixel drawing tool. Built for
-**Godot 4.x 2D pixel-art** projects.
+A Codex plugin marketplace for making games with agents — where the art is
+**authored, not generated**.
 
-> **Not AI that draws pixel art for you. AI that keeps your pixel art exact.**
+Three plugins. Every tool in them is deterministic, and every claim below is
+measurable.
 
-![Left: soft edges, off-palette drift, size and baseline jitter. Right: hard edges, one palette, exact declared sizes.](docs/why-deterministic.png)
-
-![Text grid becomes a sprite, which then runs in Godot](docs/grid-to-sprite.gif)
-
-Most attempts at "have an AI make me a pixel game" fail in one of two ways:
-
-1. **The project never ships.** The model starts writing code before art direction
-   and scope exist, so the game grows sideways across systems and content.
-2. **The assets are unusable.** What comes back *looks* like pixel art but is
-   anti-aliased (soft edges, hundreds of colours), off-palette, and at
-   inconsistent sizes — so it cannot go into an engine without being redrawn.
-
-This plugin addresses both: a workflow that forces design and art direction to
-exist before code, and a drawing tool that produces exact, engine-ready pixels.
-
-> This repository is a Codex plugin marketplace. It currently ships one plugin,
-> `godot-pixel-studio`; the layout supports adding more under `plugins/`.
+| Plugin | What it does |
+|---|---|
+| **[pixel-art-forge](plugins/pixel-art-forge/)** | Higher-resolution pixel art and game UI, plus an audit for the defects that make pixel art read as machine-made. 25 commands, 1747 lines, Pillow only. |
+| **[godot-pixel-studio](plugins/godot-pixel-studio/)** | A Godot 4.x 2D pixel-art crew: seven role skills (design, art direction, sprites, GDScript, scenes, QA) and a deterministic character-grid drawing tool. |
+| **[game-studio-sim](plugins/game-studio-sim/)** | A collaboration protocol for game projects: four permanent roles, five checkpoints, and exactly one owner per decision. |
 
 ---
 
-## Why not just generate the images?
-
-Because a generated image is not a source file. You cannot diff it, you cannot
-review it as a 3-line change, and you cannot say "move the eye one pixel left" and
-get a precise result. And any anti-aliasing that leaks in has to be cleaned up by
-hand, pixel by pixel.
-
-So this plugin draws pixel art the way it is actually editable — as text:
-
-```text
-name: slime-idle-01
-legend:
-  ".": transparent
-  "k": "#1a1c2c"   # outline
-  "b": "#41a6f6"   # body base
-  "B": "#3b5dc9"   # body shadow
-  "w": "#f4f4f4"   # eye highlight
-grid:
-.....kkkkkk.....
-....kbbbbbbk....
-...kbwwbbwwbk...
-...kbbBBBBbbk...
-```
-
-Run it through `grid` and you get a PNG whose every pixel is exactly what you
-wrote — on palette, on grid, at the declared size. Change one character and
-exactly one pixel changes.
-
-## What's inside
-
-### A studio of seven roles
-
-| Skill | Role |
-|---|---|
-| `godot-pixel-studio` | **Director** — decides which discipline leads, and in what order |
-| `game-designer` | Core loop, player verbs, and a hard **scope cap** |
-| `pixel-art-director` | Art bible: base resolution, palette, and an explicit asset manifest |
-| `pixel-artist` | Draws the sprites and tiles |
-| `godot-programmer` | Godot 4 GDScript: movement, state machines, Resources, signals |
-| `godot-scene-builder` | Node trees, `TileMapLayer`, collision layers, Y-sorting |
-| `pixel-qa` | Runs the project and reports concrete defects with measurements |
-
-The workflow is: **design brief → art bible → art → code → scenes → QA**, in small
-loops with a QA gate between them.
-
-### A deterministic pixel drawing tool
-
-`scripts/pixel_draw.py` (Python + Pillow, no other dependencies).
-
-The core idea: **pixel art needs per-pixel control, not probabilistic
-generation.** So the main entry point turns a **character grid into a PNG**. The
-result is exact, diff-able, and reviewable in a pull request.
-
-```bash
-python plugins/godot-pixel-studio/scripts/pixel_draw.py palette pico8
-python plugins/godot-pixel-studio/scripts/pixel_draw.py grid --spec examples/slime-idle.txt --out slime.png
-python plugins/godot-pixel-studio/scripts/pixel_draw.py preview --in slime.png --out slime-x8.png --scale 8 --grid-lines
-```
-
-| Command | Purpose |
-|---|---|
-| `grid` | Render a character grid to PNG (**core**) |
-| `preview` | Integer-scaled preview with grid overlay and palette legend |
-| `outline` | Add a 1px outline |
-| `recolor` | Palette-swap to make enemy tiers / damage variants |
-| `snap` | Force colours onto one palette |
-| `sheet` | Assemble frames into a sprite sheet |
-| `info` | Inspect size, colour count, bounding box |
-| `mirror` | Flip horizontally |
-| `palettes` / `palette` | Built-in palettes: `pico8`, `sweetie16`, `gameboy`, `1bit` |
-
-Authoring a sprite looks like this:
-
-```text
-name: slime-idle-01
-legend:
-  ".": transparent
-  "k": "#1a1c2c"   # outline
-  "b": "#41a6f6"   # body base
-  "B": "#3b5dc9"   # body shadow
-  "w": "#f4f4f4"   # eye highlight
-grid:
-.....kkkkkk.....
-....kbbbbbbk....
-...kbwwbbwwbk...
-...kbbBBBBbbk...
-```
-
-Symmetric characters can be authored as half a grid and mirrored
-(`--mirror-x`):
-
-![15x16 mirrored character](docs/hero-enlarged.png)
-
-### Reference documents
-
-- `godot4-pixel-perfect.md` — project settings, texture filtering, camera
-  rounding, the sub-pixel jitter problem, and a symptom → cause table
-- `animation-and-spritesheet.md` — frame layout, anchor discipline, timing
-- `palette-and-shading.md` — building shading ramps, outlines, dithering
-
 ## Install
-
-This repository is a Codex plugin marketplace, so you can install straight from
-it:
 
 ```bash
 codex plugin marketplace add khalil852/godot-pixel-studio
+codex plugin add pixel-art-forge@pixel-studio
 codex plugin add godot-pixel-studio@pixel-studio
+codex plugin add game-studio-sim@pixel-studio
 ```
 
-(The marketplace is named `pixel-studio`; the plugin inside it is
-`godot-pixel-studio`.)
+The skills are also plain `SKILL.md` files, so any harness that reads the Agent
+Skills layout can use them — copy a skill directory into `~/.agents/skills/` or
+`~/.claude/skills/` and it works unchanged. Each skill is self-contained (its own
+`scripts/` and `references/`), so its relative paths keep resolving wherever it
+lands.
 
-Then **restart Codex and open a new thread** — skills are loaded per thread, so an
-existing session will not see the new roles.
+---
 
-Verify it worked by asking: *"what skills do you have available?"* — you should
-see `godot-pixel-studio` and its six role skills.
+## Why not just generate the images
 
-## Requirements
+![Left: soft edges, off-palette drift, size and baseline jitter. Right: hard edges, one palette, exact declared sizes.](docs/why-deterministic.png)
 
-- **Codex** with plugin support
-- **Python 3.9+** with **Pillow** (`python -m pip install pillow`)
-- **Godot 4.x** for the engine-side skills (developed against Godot 4.7)
+A generated image is not a source file. You cannot diff it, you cannot review it as
+a three-line change, and you cannot say "move the eye one pixel left" and get a
+precise result. So the drawing entry point is text:
 
-## Quick start
+```text
+name: slime-idle-01
+legend:
+  ".": transparent
+  "k": "#1a1c2c"   # outline
+  "b": "#41a6f6"   # body base
+grid:
+.....kkkkkk.....
+....kbbbbbbk....
+...kbwwbbwwbk...
+```
 
-Once installed, restart Codex and start a new thread:
+![Text grid becomes a sprite, which then runs in Godot](docs/grid-to-sprite.gif)
 
-> Start a Godot 4 pixel-art game. Write the design brief and art bible first.
+Run it through `grid` and every pixel is exactly what you wrote — on palette, on
+grid, at the declared size. Change one character and exactly one pixel changes.
 
-The director skill will route to `game-designer` and `pixel-art-director` before
-any code or art is produced. To draw something immediately:
+Above roughly 32px, hand-authoring a grid stops being readable (4096 decisions at
+64×64), so the work becomes **constructive**: crisp primitives, banded shading from
+a declared light direction, one forced feature scale, and noise removal.
 
-> Draw a 16x16 pixel-art coin using the pico8 palette and show me the enlarged preview.
+---
+
+## "AI feel" is measurable, so it is measured
+
+`pixel-art-forge` ships an audit with eight checks, each tied to a specific defect:
+
+| Check | The defect it catches |
+|---|---|
+| colour count / palette drift | colours that are not in the project's palette |
+| anti-alias suspects | pixels that are blends of two other colours |
+| isolated pixels | single pixels with no neighbour — grain, not detail |
+| dominant run length | mixed feature scale (the "upscaled small sprite" tell) |
+| banded shading | adjacent tones too close in luminance — airbrushed, not shaded |
+| light consistency | highlights not on the declared light side, per material |
+| silhouette cleanliness | 1px notches and spikes on the outline |
+| *(with `--ui`)* border thickness, interior flatness | broken UI frames; detail where a panel should be empty |
+
+Verified to discriminate rather than merely to pass:
+
+- A sprite built through the constructive pipeline: **8/8**.
+- The same sprite deliberately degraded (bilinear round-trip, colour jitter,
+  speckle): **1/8** — 93,149 anti-alias suspects, 778 near-tone seams, 44 edge
+  spikes, and the light direction inverted.
+- Sprites pass `--ui`'s flatness check by failing it, and UI passes it by
+  satisfying it — a sprite interior scores ~25% in one tone across a dozen tones,
+  a panel scores 95% across three.
+
+---
+
+## What testing changed about this project
+
+Two controlled experiments, both run against a text-only model, both with the
+result kept even when it was inconvenient:
+
+**Knowledge in documentation did nothing.** A ~1400-word reference on pixel-art
+craft and per-genre design strategy was written, installed, and A/B tested. The
+agent read it (verifiable in the session log) and produced output of the same
+quality as without it — while its session grew **3×**. Its two sharpest design
+insights were not in the reference. Conclusion: a capable model already knows this
+material; explaining art to it is writing for the author, not for the model. The
+reference was removed and replaced with measured numbers, which *did* change
+behaviour: at 96×96 the agent calibrated against the documented 64×64 profile —
+"dominant run 2px at 37%" — narrowed its body, and pulled the sprite to the same
+profile.
+
+**Specification in the prompt did a lot.** The same task as a filled-in
+[asset brief](plugins/pixel-art-forge/skills/pixel-art-forge/assets/asset-brief.txt)
+— naming `must read as`, fixing the block size, requiring the report to state what
+the agent could *not* verify — produced measurably deeper work: a parameter sweep
+run specifically to rule out a hypothesis (proving a shading problem was geometric
+rather than a ramp-tuning issue), a quantified trade-off between one and two
+outline passes, and four additional unverified items flagged, including that engine
+import must use nearest-neighbour or the whole exercise is void.
+
+The rule that came out of it: **the skill earns its place by specifying process and
+reporting, not by supplying knowledge.** `references/target-profiles.md` exists
+because numbers worked and prose did not.
+
+---
 
 ## Repository layout
 
 ```text
 .
-├── .agents/plugins/marketplace.json      # marketplace manifest
-├── examples/                             # runnable grid specs + rendered output
-│   └── godot-demo/                       # 30-line Godot scene that loads them
-├── docs/                                 # README figures + the scripts that make them
-│   ├── make_figures.py                   # generates why-deterministic.png
-│   └── make_gif.py                       # generates grid-to-sprite.gif
-└── plugins/godot-pixel-studio/
-    ├── .codex-plugin/plugin.json
-    ├── skills/                           # seven role skills
-    ├── scripts/pixel_draw.py             # the drawing tool
-    └── references/                       # Godot 4 and pixel-art reference docs
+├── .agents/plugins/marketplace.json      # the marketplace manifest
+├── plugins/
+│   ├── pixel-art-forge/
+│   │   └── skills/pixel-art-forge/       # SKILL.md, scripts/, references/, assets/
+│   ├── godot-pixel-studio/
+│   │   └── skills/                       # seven role skills
+│   └── game-studio-sim/
+│       └── skills/game-studio-sim/
+├── examples/                             # runnable grid specs + a Godot demo project
+└── docs/                                 # figures, GIF, and the scripts that generate them
 ```
 
-`examples/godot-demo/` is a real runnable project — open it and you can watch the
-same PNGs the tool produced standing on a seamless tile floor. It is the check on
-the "engine-ready" claim: no editing step sits between `pixel_draw.py` and the
-engine.
+Both figure scripts are committed and read their sprites through the real drawing
+code, so the images cannot drift from the tool's behaviour.
 
-## Design notes
-
-- **Why seven separate skills instead of one big prompt?** Each discipline has
-  hard rules that pull against the others — design wants scope, art wants
-  consistency, QA wants evidence. Keeping them separate keeps those rules
-  enforceable, and mirrors how roles are actually separated on a team.
-- **Why insist on an artifact manifest?** A sprite's pixel size and anchor are
-  contracts between art and code. Undeclared sizes are the root cause of popping
-  animation and collision drift, so the manifest makes them explicit before
-  anything is drawn.
-- **Why is `info` a first-class command?** Verification should be a command, not
-  an opinion. "Is this sprite 16×24 with 5 colours?" is answerable; "does it look
-  right?" is not.
+---
 
 ## License
 
@@ -206,20 +149,15 @@ MIT — see [LICENSE](LICENSE).
 
 ## 中文说明
 
-**不做替你画像素画的 AI，做替你精确管理像素资产的 AI。**
+一个 Codex 插件市场，做**"作者画出来"而不是"模型生成"**的游戏美术。
 
-这是一个给 **Codex** 用的「Godot 4 像素风游戏工作室」插件：7 个角色 skill
-（导演 / 策划 / 美术总监 / 像素画师 / 程序 / 场景 / QA）加一个**确定性像素绘画工具**。
+三个插件：**pixel-art-forge**（高分辨率像素画与游戏 UI + 可测量的"AI 感"检查）、
+**godot-pixel-studio**（Godot 4 的七角色工作室 + 确定性字符网格绘画）、
+**game-studio-sim**（协作协议：四个常驻角色、五个检查点、每个决策唯一责任人）。
 
-核心设计：**像素画靠精确控制每个像素，不靠概率生成**。所以作画主入口是
-「字符网格 → PNG」——用调色板字符写网格，输出完全确定、可 diff、可复查，
-而不是让模型生成一张带抗锯齿、调色板混乱、尺寸不一的图。
+核心主张：**"AI 感"不是玄学，是七项可测量的缺陷**——抗锯齿混色、色板漂移、孤立像素、
+特征尺度混乱、渐变式明暗、光照不一致、轮廓毛刺。前六项从构造上禁止，第七项由 `audit` 拦截。
+实测区分度：正常流程产出的资产 8/8 通过，人为劣化的 1/8。
 
-安装后需要**重启 Codex 并开新会话**（skill 按会话加载，旧会话看不到新角色）。
-
-示例即仓库里的 `examples/`：`slime-idle.txt` 是显式 `legend` 写法，
-`hero-idle-half.txt` 演示对称角色只画左半再用 `--mirror-x` 镜像，
-`grass-tile.txt` 演示直接用内置调色板索引。`examples/godot-demo/` 是一个可直接运行的
-Godot 工程——打开就能看到这些 PNG 站在无缝拼接的地砖上，中间没有任何加工步骤。
-
-依赖：Python 3.9+ 与 Pillow；引擎侧针对 Godot 4.x（开发时用的是 4.7）。
+README 里那两段实验结论也建议看：**给模型解释美术原理基本无效**（它本来就会，装上去只会让
+会话膨胀 3 倍），**但把它要遵守的流程和汇报要求写清楚非常有效**。
